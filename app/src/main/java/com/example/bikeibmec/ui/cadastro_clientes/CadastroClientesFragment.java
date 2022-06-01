@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.example.bikeibmec.R;
 import com.example.bikeibmec.databinding.FragmentCadastroClientesBinding;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class CadastroClientesFragment extends Fragment {
 
@@ -27,6 +29,34 @@ public class CadastroClientesFragment extends Fragment {
 
         binding = FragmentCadastroClientesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+//        MaterialButton materialButton = binding.cadastroClientesSubmit;
+//        System.out.println(binding.cadastroClientesMatricula.getEditText().getText());
+//        binding.cadastroClientesNome;
+//        binding.cadastroClientesSobrenome;
+//        binding.cadastroClientesSexo;
+//        binding.cadastroClientesSexoMasculino;
+//        binding.cadastroClientesSexoFeminino;
+//        binding.cadastroClientesCursoEngComp;
+//        binding.cadastroClientesCursoEngCiv;
+//        binding.cadastroClientesCursoEngProd;
+//        binding.cadastroClientesCursoEngMec;
+//        binding.cadastroClientesCelular;
+//        binding.cadastroClientesEmail;
+//        binding.cadastroClientesCartaoBandeiraElo;
+//        binding.cadastroClientesCartaoBandeiraMastercard;
+//        binding.cadastroClientesCartaoBandeiraVisa;
+//        binding.cadastroClientesCartaoNumero;
+//        binding.cadastroClientesCartaoTitular;
+//        binding.cadastroClientesCartaoValidade;
+//        binding.cadastroClientesCartaoCv;
+
+//        materialButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
 
 //        final TextView textView = binding.textCadastroClientes;
 //        cadastroClientesViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);

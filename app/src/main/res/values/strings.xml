@@ -39,4 +39,6 @@
     <string name="label_cartao_titular">Titular</string>
     <string name="label_cartao_validade">Validade</string>
     <string name="label_cartao_cv">CV</string>
+    <string name="label_submit">Submit</string>
+
 </resources>
