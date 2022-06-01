@@ -28,8 +28,8 @@ public class CadastroClientesFragment extends Fragment {
         binding = FragmentCadastroClientesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textCadastroClientes;
-        cadastroClientesViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+//        final TextView textView = binding.textCadastroClientes;
+//        cadastroClientesViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
