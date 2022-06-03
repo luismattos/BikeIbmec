@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="matricula_length_min">20</integer>
+    <integer name="matricula_length_min">4</integer>
     <integer name="matricula_length_max">@integer/matricula_length_min</integer>
     <integer name="nome_length_min">8</integer>
     <integer name="nome_length_max">100</integer>

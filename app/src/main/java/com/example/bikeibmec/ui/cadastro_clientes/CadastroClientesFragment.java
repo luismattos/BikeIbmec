@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,10 +55,134 @@ public class CadastroClientesFragment extends Fragment {
             }
         });
 
+        addListeners();
+
 //        final TextView textView = binding.textCadastroClientes;
 //        cadastroClientesViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         return root;
+    }
+
+    void addListeners(){
+
+        //TODO radio e check
+
+        binding.cadastroClientesMatricula.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
+        binding.cadastroClientesNome.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                validaNome();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
+        binding.cadastroClientesSobrenome.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                validaSobrenome();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
+        binding.cadastroClientesCelular.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                validaCelular();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
+        binding.cadastroClientesEmail.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                validaEmail();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
+        binding.cadastroClientesCartaoNumero.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                validaCartaoNumero();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
+        binding.cadastroClientesCartaoTitular.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                validaCartaoTitular();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
+        binding.cadastroClientesCartaoValidade.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                validaValidade();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
+        binding.cadastroClientesCartaoCv.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                validaCv();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
     }
 
     @Override
@@ -70,6 +195,7 @@ public class CadastroClientesFragment extends Fragment {
 
         if(!validaCliente()) {
             takeAction();
+            return;
         }
 
         ClienteModel clienteModel = criaClienteModel(root);
@@ -79,8 +205,10 @@ public class CadastroClientesFragment extends Fragment {
 
     ClienteModel criaClienteModel(@NonNull View root){
 
-        MaterialRadioButton mrbSexo = root.findViewById(binding.cadastroClientesSexo.getCheckedRadioButtonId());
-        MaterialRadioButton mrbBandeira = root.findViewById(binding.cadastroClientesCartaoBandeira.getCheckedRadioButtonId());
+
+
+        MaterialRadioButton mrbSexo = binding.cadastroClientesSexo.getCheckedRadioButtonId()==-1 ? null: root.findViewById(binding.cadastroClientesSexo.getCheckedRadioButtonId());
+        MaterialRadioButton mrbBandeira = binding.cadastroClientesCartaoBandeira.getCheckedRadioButtonId()==-1 ? null : root.findViewById(binding.cadastroClientesCartaoBandeira.getCheckedRadioButtonId());
 
         List<String> cursos = new ArrayList<String>();
         if(binding.cadastroClientesCursoEngComp.isChecked())
@@ -93,18 +221,18 @@ public class CadastroClientesFragment extends Fragment {
             cursos.add(String.valueOf(binding.cadastroClientesCursoEngMec.getEditableText()));
 
         return new ClienteModel(
-                String.valueOf(binding.cadastroClientesMatricula.getEditText()),
-                String.valueOf(binding.cadastroClientesNome.getEditText()),
-                String.valueOf(binding.cadastroClientesSobrenome.getEditText()),
-                String.valueOf(mrbSexo.getEditableText()),
+                binding.cadastroClientesMatricula.getEditText() == null ? "" : String.valueOf(binding.cadastroClientesMatricula.getEditText().getText()),
+                binding.cadastroClientesNome.getEditText() == null ? "" : String.valueOf(binding.cadastroClientesNome.getEditText().getText()),
+                binding.cadastroClientesSobrenome.getEditText() == null ? "" : String.valueOf(binding.cadastroClientesSobrenome.getEditText().getText()),
+                String.valueOf(mrbSexo == null ? "" : mrbSexo.getEditableText()),
                 cursos,
-                String.valueOf(binding.cadastroClientesCelular.getEditText()),
-                String.valueOf(binding.cadastroClientesEmail.getEditText()),
-                String.valueOf(mrbBandeira.getEditableText()),
-                String.valueOf(binding.cadastroClientesCartaoNumero.getEditText()),
-                String.valueOf(binding.cadastroClientesCartaoTitular.getEditText()),
-                String.valueOf(binding.cadastroClientesCartaoValidade.getEditText()),
-                String.valueOf(binding.cadastroClientesCartaoCv.getEditText())
+                binding.cadastroClientesCelular.getEditText() == null ? "" : String.valueOf(binding.cadastroClientesCelular.getEditText().getText()),
+                binding.cadastroClientesEmail.getEditText() == null ? "" : String.valueOf(binding.cadastroClientesEmail.getEditText().getText()),
+                String.valueOf(mrbBandeira == null ? "" : mrbBandeira.getEditableText()),
+                binding.cadastroClientesCartaoNumero.getEditText() == null ? "" : String.valueOf(binding.cadastroClientesCartaoNumero.getEditText().getText()),
+                binding.cadastroClientesCartaoTitular.getEditText() == null ? "" : String.valueOf(binding.cadastroClientesCartaoTitular.getEditText().getText()),
+                binding.cadastroClientesCartaoValidade.getEditText() == null ? "" : String.valueOf(binding.cadastroClientesCartaoValidade.getEditText().getText()),
+                binding.cadastroClientesCartaoCv.getEditText() == null ? "" : String.valueOf(binding.cadastroClientesCartaoCv.getEditText().getText())
         );
     }
 
@@ -151,7 +279,7 @@ public class CadastroClientesFragment extends Fragment {
 
     boolean validaLength(@NonNull TextInputLayout in, int min_length, int max_length){
 
-        String s = String.valueOf(in.getEditText());
+        String s = in.getEditText() == null ? "" : String.valueOf(in.getEditText().getText());
 
         if(s.length() == 0){
 
@@ -184,12 +312,15 @@ public class CadastroClientesFragment extends Fragment {
 
         }
 
+        in.setError(null);
+
         return true;
     }
 
     boolean validaRegex(@NonNull TextInputLayout in, String regex){
 
-        String s = String.valueOf(in.getEditText());
+
+        String s = in.getEditText() == null ? "" : String.valueOf(in.getEditText().getText());
 
         if( ! Pattern.compile(regex).
                 matcher(s)
@@ -200,6 +331,8 @@ public class CadastroClientesFragment extends Fragment {
 
             return false;
         }
+
+        in.setError(null);
 
         return true;
     }
@@ -223,18 +356,18 @@ public class CadastroClientesFragment extends Fragment {
     boolean validaMatricula(){
 
         return valida(binding.cadastroClientesMatricula,
-                "\\d+", R.integer.matricula_length_min, R.integer.matricula_length_max);
+                "\\d+", getResources().getInteger(R.integer.matricula_length_min), getResources().getInteger(R.integer.matricula_length_max));
     }
 
     boolean validaNome(){
         return validaNomeGenerico(binding.cadastroClientesNome,
-                R.integer.nome_length_min, R.integer.nome_length_max);
+                getResources().getInteger(R.integer.nome_length_min), getResources().getInteger(R.integer.nome_length_max));
     }
 
     boolean validaSobrenome() {
 
         return validaNomeGenerico(binding.cadastroClientesSobrenome,
-                R.integer.sobrenome_length_min, R.integer.sobrenome_length_max);
+                getResources().getInteger(R.integer.sobrenome_length_min), getResources().getInteger(R.integer.sobrenome_length_max));
     }
 
     boolean validaSexo(){ return true; }
@@ -244,32 +377,32 @@ public class CadastroClientesFragment extends Fragment {
     boolean validaCelular(){
 
         return valida(binding.cadastroClientesCelular,
-                "\\d+", R.integer.celular_length_min, R.integer.celular_length_max);
+                "\\d+", getResources().getInteger(R.integer.celular_length_min), getResources().getInteger(R.integer.celular_length_max));
     }
 
     boolean validaEmail(){
         return valida(binding.cadastroClientesEmail,
                 "^[\\p{Alnum}_\\-.]+@([\\p{Alnum}_\\-]+\\.)+[\\p{Alnum}_\\-]{2,4}$",
-                R.integer.email_length_min, R.integer.email_length_max);
+                getResources().getInteger(R.integer.email_length_min), getResources().getInteger(R.integer.email_length_max));
     }
 
     boolean validaCartaoBandeira(){ return true; }
 
     boolean validaCartaoNumero(){
         return valida(binding.cadastroClientesCartaoNumero,"\\d+",
-                R.integer.cartao_numero_length_min, R.integer.cartao_numero_length_max);
+                getResources().getInteger(R.integer.cartao_numero_length_min), getResources().getInteger(R.integer.cartao_numero_length_max));
     }
 
     boolean validaCartaoTitular() {
         return validaNomeGenerico(binding.cadastroClientesCartaoTitular,
-                R.integer.cartao_titular_length_min, R.integer.cartao_titular_length_max);
+                getResources().getInteger(R.integer.cartao_titular_length_min), getResources().getInteger(R.integer.cartao_titular_length_max));
     }
 
     boolean validaValidade(){ return true; }
 
     boolean validaCv(){
         return valida(binding.cadastroClientesCartaoCv,"\\d+",
-                R.integer.cartao_cv_length_min, R.integer.cartao_cv_length_max);
+                getResources().getInteger(R.integer.cartao_cv_length_min), getResources().getInteger(R.integer.cartao_cv_length_max));
     }
 
     void takeAction(){
