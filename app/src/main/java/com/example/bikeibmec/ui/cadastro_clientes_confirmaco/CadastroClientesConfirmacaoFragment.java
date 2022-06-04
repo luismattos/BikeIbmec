@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bikeibmec.R;
 import com.example.bikeibmec.databinding.FragmentCadastroClientesConfirmacaoBinding;
@@ -29,7 +30,7 @@ public class CadastroClientesConfirmacaoFragment extends Fragment {
 
     private FragmentCadastroClientesConfirmacaoBinding binding;
     private CadastroClientesConfirmacaoViewModel cadastroClientesConfirmacaoViewModel;
-    private CadastroClientesViewModel cadastroClientesViewModel;
+//    private CadastroClientesViewModel cadastroClientesViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -56,22 +57,56 @@ public class CadastroClientesConfirmacaoFragment extends Fragment {
             }
         });
 
-        Log.d("Confirmacao Cadastro", "Carregando Clientes View Model");
-
-        cadastroClientesViewModel = new ViewModelProvider(requireActivity()).get(CadastroClientesViewModel.class);
-
-        Log.d("Confirmacao Cadastro", "Clientes View Model Carregado");
-
-//        setClients();
+        setClients();
 
         return root;
     }
 
     void setClients(){
-        //TODO
-        Log.d("Confirmacao Cadastro", cadastroClientesViewModel.getCliente().toString());
-        ClienteModel cliente = cadastroClientesViewModel.getCliente().getValue();
-        Log.d("Confirmacao Cadastro", cliente.toString());
+
+        Bundle bundle = this.getArguments();
+
+        if(bundle != null){
+
+            ClienteModel clienteModel = (ClienteModel) bundle.get("cliente");
+
+            binding.cadastroClientesConfirmacaoMatricula.getEditText()
+                    .setText(clienteModel.getMatricula());
+
+            binding.cadastroClientesConfirmacaoNome.getEditText()
+                    .setText(clienteModel.getNome());
+
+            binding.cadastroClientesConfirmacaoSobrenome.getEditText()
+                    .setText(clienteModel.getSobrenome());
+
+            binding.cadastroClientesConfirmacaoSexo.getEditText()
+                    .setText(clienteModel.getSexo());
+
+            //TODO se todos selecionados, texto sai de vista. Concertar futuramente
+            binding.cadastroClientesConfirmacaoCurso.getEditText()
+                    .setText(clienteModel.getCursos().toString());
+
+            binding.cadastroClientesConfirmacaoCelular.getEditText()
+                    .setText(clienteModel.getCelular());
+
+            binding.cadastroClientesConfirmacaoEmail.getEditText()
+                    .setText(clienteModel.getEmail());
+
+            binding.cadastroClientesConfirmacaoCartaoBandeira.getEditText()
+                    .setText(clienteModel.getCartaoBandeira());
+
+            binding.cadastroClientesConfirmacaoCartaoNumero.getEditText()
+                    .setText(clienteModel.getCartaoNumero());
+
+            binding.cadastroClientesConfirmacaoCartaoTitular.getEditText()
+                    .setText(clienteModel.getCartaoTitular());
+
+            binding.cadastroClientesConfirmacaoCartaoValidade.getEditText()
+                    .setText(clienteModel.getCartaoValidade());
+
+            binding.cadastroClientesConfirmacaoCartaoCv.getEditText()
+                    .setText(clienteModel.getCartaoCv());
+        }
 
     }
 
@@ -82,14 +117,22 @@ public class CadastroClientesConfirmacaoFragment extends Fragment {
     }
 
     void cancel(@NonNull View container){
-        //TODO
+
+        CadastroClientesFragment cadastroClientesFragment = new CadastroClientesFragment();
+        cadastroClientesFragment.setArguments(this.getArguments());
+
+
         FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-        ft.replace(container.getId(), new CadastroClientesFragment());
+        ft.replace(container.getId(),cadastroClientesFragment);
         ft.commit();
     }
 
     void confirm(@NonNull View container){
-        //TODO
+
+        Toast.makeText(getActivity().getApplicationContext(),
+                "Cliente cadastrado com sucesso!",
+                Toast.LENGTH_SHORT).show();
+
         FragmentTransaction ft = getParentFragmentManager().beginTransaction();
         ft.replace(container.getId(), new CadastroClientesFragment());
         ft.commit();
