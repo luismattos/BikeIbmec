@@ -1,5 +1,7 @@
 package com.example.bikeibmec.ui.cadastro_clientes;
 
+import androidx.fragment.app.FragmentContainer;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
@@ -8,6 +10,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.bikeibmec.R;
 import com.example.bikeibmec.databinding.FragmentCadastroClientesBinding;
+import com.example.bikeibmec.ui.cadastro_clientes_confirmaco.CadastroClientesConfirmacaoFragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.radiobutton.MaterialRadioButton;
@@ -34,17 +38,19 @@ import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CadastroClientesFragment extends Fragment {
 
     private FragmentCadastroClientesBinding binding;
+    private CadastroClientesViewModel cadastroClientesViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        CadastroClientesViewModel cadastroClientesViewModel =
+        cadastroClientesViewModel =
                 new ViewModelProvider(this).get(CadastroClientesViewModel.class);
 
         binding = FragmentCadastroClientesBinding.inflate(inflater, container, false);
@@ -56,7 +62,7 @@ public class CadastroClientesFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                onClickSubmit(root);
+                onClickSubmit(container);
 
             }
         });
@@ -109,6 +115,7 @@ public class CadastroClientesFragment extends Fragment {
             public void afterTextChanged(Editable editable) {}
         });
 
+        // new PhoneNumberFormattingTextWatcher("BR")
         binding.cadastroClientesCelular.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
@@ -204,7 +211,9 @@ public class CadastroClientesFragment extends Fragment {
 
         ClienteModel clienteModel = criaClienteModel(root);
 
-        goToConfirmationPage(clienteModel);
+        cadastroClientesViewModel.setCliente(clienteModel);
+
+        goToConfirmationPage(root);
     }
 
     ClienteModel criaClienteModel(@NonNull View root){
@@ -388,6 +397,8 @@ public class CadastroClientesFragment extends Fragment {
         boolean valid = valida(binding.cadastroClientesMatricula,
                 "^[^\\s]*\\d+[^\\s]*$", getResources().getInteger(R.integer.matricula_length_min), getResources().getInteger(R.integer.matricula_length_max));
 
+        Log.d("Validacao", "Valida Matricula: "+valid);
+
         return valid;
 
     }
@@ -546,8 +557,10 @@ public class CadastroClientesFragment extends Fragment {
         toast.show();
     }
 
-    void goToConfirmationPage(ClienteModel clienteModel){
-        //TODO
+    void goToConfirmationPage(@NonNull View container){
+        FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+        ft.replace(container.getId(), new CadastroClientesConfirmacaoFragment());
+        ft.commit();
     }
 
 }

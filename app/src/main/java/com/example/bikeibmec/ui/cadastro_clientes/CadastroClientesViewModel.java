@@ -1,18 +1,28 @@
 package com.example.bikeibmec.ui.cadastro_clientes;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class CadastroClientesViewModel extends ViewModel {
-    private final MutableLiveData<String> mText;
+
+    private final MutableLiveData<ClienteModel> mCliente;
 
     public CadastroClientesViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is Cadastro Clientes fragment");
+        this.mCliente = new MutableLiveData<ClienteModel>();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public CadastroClientesViewModel(ClienteModel cliente) {
+        this.mCliente = new MutableLiveData<ClienteModel>(cliente);
     }
+
+    public LiveData<ClienteModel> getCliente() {
+        return mCliente;
+    }
+
+    public void setCliente(ClienteModel cliente){
+        this.mCliente.setValue(cliente);
+    }
+
 }
